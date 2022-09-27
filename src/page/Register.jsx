@@ -1,24 +1,44 @@
-import React from "react";
+import React, {useState} from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Layout from "../component/Layout";
+import user from "../api/user";
+import { toast } from "react-toastify";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function Register() {
-  const handleSubmit = (event) => {
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.currentTarget);
-    console.log({
+    const bodyJsonData = {
+      first_name: data.get("firstName"),
+      last_name: data.get("lastName"),
       email: data.get("email"),
       password: data.get("password"),
-    });
+    };
+    try {
+      const result = await user.createUser(bodyJsonData);
+      if(result.error) {
+        setErrorMsg(result.error);
+        toast.error("Registration Failed !!");
+      }
+        else{
+        setErrorMsg("");
+        toast.success("Registration completed. Please login !!")
+      }
+    } catch (err) {
+      setErrorMsg(err.message);
+    }
+    setLoading(false);
   };
 
   return (
@@ -37,7 +57,7 @@ export default function Register() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -64,6 +84,7 @@ export default function Register() {
               <TextField
                 required
                 fullWidth
+                type="email"
                 id="email"
                 label="Email Address"
                 name="email"
@@ -79,23 +100,24 @@ export default function Register() {
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                inputProps={{ minLength: 6 }}
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
+              <Typography color="red" align="center">
+              {errorMsg}
+              </Typography>
             </Grid>
           </Grid>
-          <Button
+          <LoadingButton
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            loading={loading}
           >
-            Sign Up
-          </Button>
+            Register
+          </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/login" variant="body2">
