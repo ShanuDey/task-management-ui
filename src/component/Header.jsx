@@ -7,9 +7,12 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil/atom/userAtom";
 
 export default function ButtonAppBar() {
   const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userState)
 
   const handleLoginButtonClick = () => {
     navigate("/login");
@@ -18,6 +21,10 @@ export default function ButtonAppBar() {
   const handleRedirectToHome = () => {
     navigate("/");
   };
+
+  const handleLogoutButtonClick = () => {
+    setUser(null);
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -41,9 +48,14 @@ export default function ButtonAppBar() {
           >
             Task Manager
           </Typography>
+          {user ? (
+            <Button color="inherit" onClick={handleLogoutButtonClick}>
+            Logout
+          </Button>
+          ):(
           <Button color="inherit" onClick={handleLoginButtonClick}>
             Login
-          </Button>
+          </Button>)}
         </Toolbar>
       </AppBar>
     </Box>
