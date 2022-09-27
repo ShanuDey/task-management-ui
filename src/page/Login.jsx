@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -9,15 +9,25 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Layout from "../component/Layout";
-import user from "../api/user";
+import userApi from "../api/userApi";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil/atom/userAtom";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userState);
+
+  useEffect(() => {
+    if(user) {
+      navigate('/dashboard')
+    }
+  }, [user])
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -29,13 +39,13 @@ export default function SignIn() {
       password: data.get("password"),
     };
     try {
-      const result = await user.loginUser(bodyJsonData);
+      const result = await userApi.loginUser(bodyJsonData);
       if (result.error) {
         setErrorMsg(result.error);
         toast.error("Login Failed !!");
       } else {
         toast.success("Login Successful !!");
-        navigate("/dashboard");
+        setUser(result);
       }
     } catch (err) {
       setErrorMsg(err.message);
