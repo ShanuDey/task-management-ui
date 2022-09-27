@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
@@ -13,7 +13,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,13 +27,12 @@ export default function Register() {
     };
     try {
       const result = await user.createUser(bodyJsonData);
-      if(result.error) {
+      if (result.error) {
         setErrorMsg(result.error);
         toast.error("Registration Failed !!");
-      }
-        else{
-        setErrorMsg("");
-        toast.success("Registration completed. Please login !!")
+      } else {
+        setErrorMsg("success");
+        toast.success("Registration completed. Verification email sent !!");
       }
     } catch (err) {
       setErrorMsg(err.message);
@@ -104,9 +103,15 @@ export default function Register() {
               />
             </Grid>
             <Grid item xs={12}>
-              <Typography color="red" align="center">
-              {errorMsg}
-              </Typography>
+              {errorMsg !=="success" ? (
+                <Typography color="red" align="center">
+                  {errorMsg}
+                </Typography>
+              ) : (
+                <Typography color="green" align="center">
+                  Verification email sent !!
+                </Typography>
+              )}
             </Grid>
           </Grid>
           <LoadingButton
