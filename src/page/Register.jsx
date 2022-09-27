@@ -14,6 +14,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 export default function Register() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [emailPreviewLink, setEmailPreviewLink] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,6 +33,7 @@ export default function Register() {
         toast.error("Registration Failed !!");
       } else {
         setErrorMsg("success");
+        setEmailPreviewLink(result.email_preview_link);
         toast.success("Registration completed. Verification email sent !!");
       }
     } catch (err) {
@@ -103,13 +105,18 @@ export default function Register() {
               />
             </Grid>
             <Grid item xs={12}>
-              {errorMsg !=="success" ? (
+              {errorMsg !== "success" ? (
                 <Typography color="red" align="center">
                   {errorMsg}
                 </Typography>
               ) : (
                 <Typography color="green" align="center">
-                  Verification email sent !!
+                  Verification email sent !! <br />
+                  {emailPreviewLink && (
+                    <Link href={emailPreviewLink} target="_blank">
+                      Dummy Email Preview
+                    </Link>
+                  )}
                 </Typography>
               )}
             </Grid>
