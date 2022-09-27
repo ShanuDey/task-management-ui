@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Layout from "../component/Layout";
-import user from "../api/user";
+import userApi from "../api/userApi";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -28,7 +28,7 @@ export default function Register() {
       password: data.get("password"),
     };
     try {
-      const result = await user.createUser(bodyJsonData);
+      const result = await userApi.createUser(bodyJsonData);
       if (result.error) {
         setErrorMsg(result.error);
         toast.error("Registration Failed !!");
