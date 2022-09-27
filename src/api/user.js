@@ -15,6 +15,23 @@ class User {
       throw new Error("Something went wrong !!");
     }
   }
+
+  async loginUser(jsonData) {
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_API_BASE_URL + "/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(jsonData),
+        }
+      );
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      throw new Error("Something went wrong !!");
+    }
+  }
 }
 
 export default new User();

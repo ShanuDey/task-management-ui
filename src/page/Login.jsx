@@ -1,6 +1,5 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -10,15 +9,38 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Layout from "../component/Layout";
+import user from "../api/user";
+import { toast } from "react-toastify";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
+    setErrorMsg("");
     const data = new FormData(event.currentTarget);
-    console.log({
+    const bodyJsonData = {
       email: data.get("email"),
       password: data.get("password"),
-    });
+    };
+    try {
+      const result = await user.loginUser(bodyJsonData);
+      if (result.error) {
+        setErrorMsg(result.error);
+        toast.error("Login Failed !!");
+      } else {
+        toast.success("Login Successful !!");
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      setErrorMsg(err.message);
+    }
+    setLoading(false);
   };
 
   return (
@@ -62,14 +84,22 @@ export default function SignIn() {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-          <Button
+          <Grid item xs={12}>
+            {errorMsg && (
+              <Typography color="red" align="center">
+                {errorMsg}
+              </Typography>
+            )}
+          </Grid>
+          <LoadingButton
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            loading={loading}
           >
-            Sign In
-          </Button>
+            Login
+          </LoadingButton>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

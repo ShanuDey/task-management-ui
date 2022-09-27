@@ -19,6 +19,7 @@ export default function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+    setErrorMsg("");
     const data = new FormData(event.currentTarget);
     const bodyJsonData = {
       first_name: data.get("firstName"),
