@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Checkbox,
   Collapse,
@@ -21,18 +21,15 @@ import { toast } from "react-toastify";
 const EditTask = ({ taskObject, isEditing, setIsEditing }) => {
   const [cookies] = useCookies("token");
   const [, setTasks] = useRecoilState(tasksState);
-  const date = new Date(taskObject.date).toDateString();
+  const date = dayjs(taskObject.date).format("YYYY-MM-DD");
   const [checked, setChecked] = useState(taskObject.status === "Completed");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const jsonData = {};
-    if (data.get("date") !== dayjs(date).format("YYYY-MM-DD"))
-      jsonData.date = data.get("date");
-
+    if (data.get("date") !== date) jsonData.date = data.get("date");
     if (taskObject.task !== data.get("task")) jsonData.task = data.get("task");
-
     const status = data.get("status") ? "Completed" : "Incomplete";
     if (taskObject.status !== status) jsonData.status = status;
     console.log(jsonData);
@@ -73,35 +70,37 @@ const EditTask = ({ taskObject, isEditing, setIsEditing }) => {
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           defaultValue={taskObject.task}
-          inputProps={{ "aria-label": "edit task" }}
+          inputProps={{ "aria-label": "edit-task" }}
           required
           name="task"
+          multiline={true}
         />
         <IconButton
           type="button"
           sx={{ p: "10px" }}
-          aria-label="search"
+          color="default"
+          aria-label="close-button"
           onClick={() => setIsEditing(false)}
         >
-          <CloseIcon color="error" />
+          <CloseIcon c />
         </IconButton>
         <IconButton
           type="submit"
-          color="primary"
+          color="success"
           sx={{ p: "10px" }}
-          aria-label="directions"
+          aria-label="edit-task-button"
         >
-          <DoneIcon color="success" />
+          <DoneIcon />
         </IconButton>
       </Paper>
       <Collapse in={isEditing}>
         <Stack
           direction="row"
-          justifyContent="center"
+          justifyContent="end"
           alignItems="center"
-          spacing={1}
+          spacing={2}
           marginTop={2}
-          display={isEditing ? "block" : "none"}
+          display={isEditing ? "flex" : "none"}
         >
           <FormControlLabel
             control={
@@ -113,14 +112,16 @@ const EditTask = ({ taskObject, isEditing, setIsEditing }) => {
                 name="status"
               />
             }
-            label="Completed"
+            label={checked ? "Completed" : "Incomplete"}
           />
           <TextField
             id="date"
             label="Date"
             type="date"
             name="date"
-            defaultValue={dayjs(date).format("YYYY-MM-DD")}
+            size="small"
+            margin="normal"
+            defaultValue={date}
             InputLabelProps={{
               shrink: true,
             }}
