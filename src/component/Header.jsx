@@ -10,11 +10,12 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil/atom/userAtom";
 import { useCookies } from "react-cookie";
+import { toast } from "react-toastify";
 
 export default function ButtonAppBar() {
-  const [cookies,, removeCookie] = useCookies('token');
+  const [cookies, , removeCookie] = useCookies("token");
   const navigate = useNavigate();
-  const [, setUser] = useRecoilState(userState)
+  const [, setUser] = useRecoilState(userState);
 
   const handleLoginButtonClick = () => {
     navigate("/login");
@@ -25,10 +26,11 @@ export default function ButtonAppBar() {
   };
 
   const handleLogoutButtonClick = () => {
+    toast.success("Logout successful !!");
     setUser(null);
-    removeCookie('token');
-    navigate('/login');
-  }
+    removeCookie("token");
+    navigate("/login");
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -54,12 +56,13 @@ export default function ButtonAppBar() {
           </Typography>
           {cookies.token ? (
             <Button color="inherit" onClick={handleLogoutButtonClick}>
-            Logout
-          </Button>
-          ):(
-          <Button color="inherit" onClick={handleLoginButtonClick}>
-            Login
-          </Button>)}
+              Logout
+            </Button>
+          ) : (
+            <Button color="inherit" onClick={handleLoginButtonClick}>
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
