@@ -37,7 +37,7 @@ const AddTask = () => {
         toast.error(result.error);
       } else {
         toast.success("Task Added !!");
-        setTasks(result)
+        setTasks(result);
       }
     } catch (err) {
       toast.error(err);
@@ -68,31 +68,33 @@ const AddTask = () => {
           onFocus={() => setIsEditing(true)}
           required
           name="task"
+          multiline={true}
         />
         <Stack display={isEditing ? "block" : "none"}>
           <IconButton
             type="button"
+            color="default"
             sx={{ p: "10px" }}
             aria-label="search"
             onClick={() => setIsEditing(false)}
           >
-            <CloseIcon color="error" />
+            <CloseIcon />
           </IconButton>
           <IconButton
             type="submit"
-            color="primary"
+            color="success"
             sx={{ p: "10px" }}
             aria-label="directions"
           >
-            <DoneIcon color="success" />
+            <DoneIcon />
           </IconButton>
         </Stack>
         <Stack display={isEditing ? "none" : "block"}>
           <IconButton
-            type="submit"
             color="primary"
             sx={{ p: "10px" }}
             aria-label="directions"
+            onClick={() => setIsEditing(true)}
           >
             <AddIcon />
           </IconButton>
@@ -101,11 +103,11 @@ const AddTask = () => {
       <Collapse in={isEditing}>
         <Stack
           direction="row"
-          justifyContent="center"
+          justifyContent="end"
           alignItems="center"
-          spacing={1}
+          spacing={2}
           marginTop={2}
-          display={isEditing ? "block" : "none"}
+          display={isEditing ? "flex" : "none"}
         >
           <FormControlLabel
             control={
@@ -118,6 +120,8 @@ const AddTask = () => {
             label="Date"
             name="date"
             type="date"
+            size="small"
+            margin="normal"
             InputLabelProps={{
               shrink: true,
             }}
