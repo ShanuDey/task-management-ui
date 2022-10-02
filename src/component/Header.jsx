@@ -9,10 +9,12 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil/atom/userAtom";
+import { useCookies } from "react-cookie";
 
 export default function ButtonAppBar() {
+  const [cookies,, removeCookie] = useCookies('token');
   const navigate = useNavigate();
-  const [user, setUser] = useRecoilState(userState)
+  const [, setUser] = useRecoilState(userState)
 
   const handleLoginButtonClick = () => {
     navigate("/login");
@@ -24,6 +26,8 @@ export default function ButtonAppBar() {
 
   const handleLogoutButtonClick = () => {
     setUser(null);
+    removeCookie('token');
+    navigate('/login');
   }
 
   return (
@@ -48,7 +52,7 @@ export default function ButtonAppBar() {
           >
             Task Manager
           </Typography>
-          {user ? (
+          {cookies.token ? (
             <Button color="inherit" onClick={handleLogoutButtonClick}>
             Logout
           </Button>
