@@ -15,19 +15,22 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil/atom/userAtom";
+import { useCookies } from "react-cookie";
+import { tasksState } from "../recoil/atom/taskAtom";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
-  const [user, setUser] = useRecoilState(userState);
+  const [, setUser] = useRecoilState(userState);
+  const [, setTasks] = useRecoilState(tasksState);
+  const [cookies, setCookie] = useCookies(["token"]);
 
   useEffect(() => {
-    if(user) {
-      navigate('/dashboard')
+    if (cookies.token) {
+      navigate("/dashboard");
     }
-  }, [user])
-  
+  });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,7 +48,14 @@ export default function SignIn() {
         toast.error("Login Failed !!");
       } else {
         toast.success("Login Successful !!");
-        setUser(result);
+        setUser({
+          first_name: result.user.first_name,
+          email: result.user.email,
+        });
+        setTasks(result.user.tasks);
+        let date = new Date();
+        date.setHours(date.getHours() + 2);
+        setCookie("token", result.userToken.token, { expires: date });
       }
     } catch (err) {
       setErrorMsg(err.message);
@@ -69,12 +79,13 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
             fullWidth
             id="email"
+            type="email"
             label="Email Address"
             name="email"
             autoComplete="email"
@@ -89,6 +100,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            inputProps={{ minLength: 6 }}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
