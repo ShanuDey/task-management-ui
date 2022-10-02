@@ -25,14 +25,12 @@ const AddTask = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("handle submit");
     const data = new FormData(event.currentTarget);
     const jsonData = {
       date: data.get("date"),
       task: data.get("task"),
       status: data.get("status") ? "Completed" : "Incomplete",
     };
-    console.log(jsonData);
     try {
       const result = await taskApi.createTask(cookies.token, jsonData);
       if (result.error) {
@@ -42,7 +40,7 @@ const AddTask = () => {
         setTasks(result)
       }
     } catch (err) {
-      console.log(err);
+      toast.error(err);
     }
   };
 
