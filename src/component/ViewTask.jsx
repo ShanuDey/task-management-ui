@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import taskApi from "../api/taskApi";
-import {useCookies} from 'react-cookie';
+import { useCookies } from "react-cookie";
 import { useRecoilState } from "recoil";
 import { tasksState } from "../recoil/atom/taskAtom";
 import { toast } from "react-toastify";
@@ -25,12 +25,9 @@ const ViewTask = ({ taskObject, setIsEditing }) => {
     setChecked(taskObject.status === "Completed");
   }, [taskObject.status]);
 
-  const handleDelete = async() => {
+  const handleDelete = async () => {
     try {
-      const result = await taskApi.deleteTask(
-        cookies.token,
-        taskObject._id
-      );
+      const result = await taskApi.deleteTask(cookies.token, taskObject._id);
       if (result.error) {
         toast.error(result.error);
       } else {
@@ -40,6 +37,23 @@ const ViewTask = ({ taskObject, setIsEditing }) => {
     } catch (err) {
       toast.error(err);
     }
+  };
+
+  const handleChecked = async () => {
+    try {
+      const result = await taskApi.updateTask(cookies.token, taskObject._id, {
+        status: !checked ? "Completed" : "Incomplete",
+      });
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        toast.success("Task status updated !!");
+        setTasks(result);
+      }
+    } catch (err) {
+      toast.error(err);
+    }
+    setChecked(!checked);
   };
 
   return (
@@ -63,7 +77,7 @@ const ViewTask = ({ taskObject, setIsEditing }) => {
           <Checkbox
             edge="start"
             checked={checked}
-            onClick={() => setChecked(!checked)}
+            onClick={handleChecked}
             tabIndex={-1}
             disableRipple
             inputProps={{ "aria-labelledby": labelId }}
