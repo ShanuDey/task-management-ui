@@ -74,6 +74,7 @@ const EditTask = ({ taskObject, isEditing, setIsEditing }) => {
           required
           name="task"
           multiline={true}
+          rows={3}
         />
         <IconButton
           type="button"
