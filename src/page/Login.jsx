@@ -10,7 +10,7 @@ import Layout from "../component/Layout";
 import userApi from "../api/userApi";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil/atom/userAtom";
 import { useCookies } from "react-cookie";
@@ -127,7 +127,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/register" variant="body2">
+              <Link variant="body2" component={RouterLink} to="/register">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

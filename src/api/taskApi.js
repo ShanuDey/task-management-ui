@@ -1,8 +1,12 @@
 class TaskApi {
+  get baseUrl () {
+    return 'https://elred-api-project.herokuapp.com/task';
+  }
+
   async createTask(tokenHeader, jsonData) {
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_BASE_URL + "/task/create",
+        this.baseUrl + "/create",
         {
           method: "POST",
           headers: {
@@ -22,7 +26,7 @@ class TaskApi {
   async updateTask(tokenHeader, taskID, jsonData) {
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_BASE_URL + `/task/${taskID}`,
+        this.baseUrl + `/${taskID}`,
         {
           method: "PATCH",
           headers: {
@@ -42,7 +46,7 @@ class TaskApi {
   async getTasks(tokenHeader) {
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_BASE_URL + "/task",
+        this.baseUrl,
         {
           method: "GET",
           headers: {
@@ -61,7 +65,7 @@ class TaskApi {
   async deleteTask(tokenHeader, taskID) {
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_BASE_URL + `/task/${taskID}`,
+        this.baseUrl + `/${taskID}`,
         {
           method: "DELETE",
           headers: {
