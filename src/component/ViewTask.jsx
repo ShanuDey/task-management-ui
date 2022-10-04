@@ -7,46 +7,74 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import taskApi from "../api/taskApi";
+import {useCookies} from 'react-cookie';
+import { useRecoilState } from "recoil";
+import { tasksState } from "../recoil/atom/taskAtom";
+import { toast } from "react-toastify";
 
 const ViewTask = ({ taskObject, setIsEditing }) => {
+  const [cookies] = useCookies("token");
+  const [, setTasks] = useRecoilState(tasksState);
   const [checked, setChecked] = useState(false);
-  const labelId = `checkbox-list-label-${taskObject.task}`;
+  const labelId = `tasks-listitem-label-${taskObject.task}`;
   const date = new Date(taskObject.date).toDateString();
 
   useEffect(() => {
     setChecked(taskObject.status === "Completed");
   }, [taskObject.status]);
 
+  const handleDelete = async() => {
+    try {
+      const result = await taskApi.deleteTask(
+        cookies.token,
+        taskObject._id
+      );
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        toast.success("Task deleted !!");
+        setTasks(result);
+      }
+    } catch (err) {
+      toast.error(err);
+    }
+  };
+
   return (
     <ListItem
       key={taskObject._id}
       secondaryAction={
         <IconButton
+          sx={{ p: "10px" }}
           edge="end"
           aria-label="comments"
-          onClick={() => setIsEditing(true)}
+          color="error"
+          onClick={handleDelete}
         >
-          <EditIcon />
+          <DeleteForeverIcon />
         </IconButton>
       }
       disablePadding
     >
-      <ListItemButton
-        role={undefined}
-        onClick={() => setChecked(!checked)}
-        dense
-      >
+      <ListItemButton role={undefined} dense>
         <ListItemIcon>
           <Checkbox
             edge="start"
             checked={checked}
+            onClick={() => setChecked(!checked)}
             tabIndex={-1}
             disableRipple
             inputProps={{ "aria-labelledby": labelId }}
           />
         </ListItemIcon>
-        <ListItemText id={labelId} primary={taskObject.task} secondary={date} />
+        <ListItemText
+          id={labelId}
+          primary={taskObject.task}
+          secondary={date}
+          onDoubleClick={() => setIsEditing(true)}
+        />
       </ListItemButton>
     </ListItem>
   );
