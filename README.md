@@ -5,7 +5,7 @@
 
 It is a ReactJS frontend application to add, view, update, and delete tasks with secure login and register. Users can create an account with email verifications. Log in with a secure username and password. A JWT token will be assigned after successful login. This token will expire in 2 hours or after logout.
 
-## Available Scripts
+## Usage Instructions
 
 In the project directory, you can run:
 
@@ -16,6 +16,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+You can override API url with REACT_APP_API_URI environment variable in local development.
 
 ### `npm run build`
 
