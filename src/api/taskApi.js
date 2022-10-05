@@ -1,21 +1,18 @@
-class TaskApi {
-  get baseUrl () {
-    return 'https://elred-api-project.herokuapp.com/task';
-  }
+import Api from "./api";
+
+class TaskApi extends Api {
+  baseUrl = this.baseUrl + "/task";
 
   async createTask(tokenHeader, jsonData) {
     try {
-      const response = await fetch(
-        this.baseUrl + "/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": tokenHeader,
-          },
-          body: JSON.stringify(jsonData),
-        }
-      );
+      const response = await fetch(this.baseUrl + "/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": tokenHeader,
+        },
+        body: JSON.stringify(jsonData),
+      });
       const result = await response.json();
       return result;
     } catch (err) {
@@ -25,17 +22,14 @@ class TaskApi {
 
   async updateTask(tokenHeader, taskID, jsonData) {
     try {
-      const response = await fetch(
-        this.baseUrl + `/${taskID}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": tokenHeader,
-          },
-          body: JSON.stringify(jsonData),
-        }
-      );
+      const response = await fetch(this.baseUrl + `/${taskID}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": tokenHeader,
+        },
+        body: JSON.stringify(jsonData),
+      });
       const result = await response.json();
       return result;
     } catch (err) {
@@ -45,16 +39,13 @@ class TaskApi {
 
   async getTasks(tokenHeader) {
     try {
-      const response = await fetch(
-        this.baseUrl,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": tokenHeader,
-          },
-        }
-      );
+      const response = await fetch(this.baseUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": tokenHeader,
+        },
+      });
       const result = await response.json();
       return result;
     } catch (err) {
@@ -64,16 +55,13 @@ class TaskApi {
 
   async deleteTask(tokenHeader, taskID) {
     try {
-      const response = await fetch(
-        this.baseUrl + `/${taskID}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": tokenHeader,
-          },
-        }
-      );
+      const response = await fetch(this.baseUrl + `/${taskID}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": tokenHeader,
+        },
+      });
       const result = await response.json();
       return result;
     } catch (err) {

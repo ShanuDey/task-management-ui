@@ -1,8 +1,6 @@
-class User {
-  get baseUrl() {
-    return "https://elred-api-project.herokuapp.com";
-  }
+import Api from "./api";
 
+class User extends Api {
   async createUser(jsonData) {
     try {
       const response = await fetch(this.baseUrl + "/register", {
@@ -28,7 +26,7 @@ class User {
       return result;
     } catch (err) {
       console.log(err);
-      throw new Error("Something went wrong !!"+ err);
+      throw new Error("Something went wrong !!" + err);
     }
   }
 }
