@@ -3,6 +3,7 @@ import List from "@mui/material/List";
 import TaskItem from "./TaskItem";
 import { tasksState } from "../recoil/atom/taskAtom";
 import { useRecoilValue } from "recoil";
+import Typography from "@mui/material/Typography";
 
 const TaskList = () => {
   const tasks = useRecoilValue(tasksState);
@@ -13,6 +14,9 @@ const TaskList = () => {
         tasks.map((taskObject) => (
           <TaskItem taskObject={taskObject} key={taskObject._id} />
         ))}
+      {tasks.length === 0 && (
+        <Typography align="center">There are no tasks present.</Typography>
+      )}
     </List>
   );
 };
