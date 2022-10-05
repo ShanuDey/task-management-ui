@@ -1,6 +1,7 @@
 {
   "name": "task-management-ui",
   "version": "0.1.0",
+  "homepage": "http://ShanuDey.github.io/task-management-ui",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -12,6 +13,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "dayjs": "^1.11.5",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
@@ -24,6 +26,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -10,6 +10,7 @@ import Layout from "../component/Layout";
 import userApi from "../api/userApi";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
@@ -133,7 +134,7 @@ export default function Register() {
           </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link component={RouterLink} to="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
