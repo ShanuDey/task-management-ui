@@ -38,10 +38,12 @@ const AddTask = () => {
       } else {
         toast.success("Task Added !!");
         setTasks(result);
+        event.target.reset();
       }
     } catch (err) {
       toast.error(err);
     }
+    setIsEditing(false);
   };
 
   return (
