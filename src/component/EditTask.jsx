@@ -54,6 +54,7 @@ const EditTask = ({ taskObject, isEditing, setIsEditing }) => {
   return (
     <Paper
       component="form"
+      id="edit-task-form"
       onSubmit={handleSubmit}
       sx={{
         padding: 2,
@@ -70,7 +71,7 @@ const EditTask = ({ taskObject, isEditing, setIsEditing }) => {
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           defaultValue={taskObject.task}
-          inputProps={{ "aria-label": "edit-task" }}
+          id="input-textarea"
           required
           name="task"
           multiline={true}
@@ -80,7 +81,7 @@ const EditTask = ({ taskObject, isEditing, setIsEditing }) => {
           type="button"
           sx={{ p: "10px" }}
           color="default"
-          aria-label="close-button"
+          id="close-button"
           onClick={() => setIsEditing(false)}
         >
           <CloseIcon c />
@@ -89,7 +90,7 @@ const EditTask = ({ taskObject, isEditing, setIsEditing }) => {
           type="submit"
           color="success"
           sx={{ p: "10px" }}
-          aria-label="edit-task-button"
+          id="submit-button"
         >
           <DoneIcon />
         </IconButton>
@@ -107,6 +108,7 @@ const EditTask = ({ taskObject, isEditing, setIsEditing }) => {
             control={
               <Checkbox
                 value="completed"
+                id="status"
                 color="primary"
                 checked={checked}
                 onClick={() => setChecked(!checked)}

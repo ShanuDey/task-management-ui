@@ -6,16 +6,17 @@ const TaskItem = ({ taskObject }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <>
+    <div id="task-list-item">
       {isEditing ? (
-        <EditTask taskObject={taskObject} isEditing={isEditing} setIsEditing={setIsEditing} />
-      ) : (
-        <ViewTask
+        <EditTask
           taskObject={taskObject}
+          isEditing={isEditing}
           setIsEditing={setIsEditing}
         />
+      ) : (
+        <ViewTask taskObject={taskObject} setIsEditing={setIsEditing} />
       )}
-    </>
+    </div>
   );
 };
 

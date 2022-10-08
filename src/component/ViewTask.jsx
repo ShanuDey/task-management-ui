@@ -18,7 +18,7 @@ const ViewTask = ({ taskObject, setIsEditing }) => {
   const [cookies] = useCookies("token");
   const [, setTasks] = useRecoilState(tasksState);
   const [checked, setChecked] = useState(false);
-  const labelId = `tasks-listitem-label-${taskObject.task}`;
+  const labelId = `tasks-listitem-label-${taskObject.task.replace(/\s/g, "")}`;
   const date = new Date(taskObject.date).toDateString();
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const ViewTask = ({ taskObject, setIsEditing }) => {
         <IconButton
           sx={{ p: "10px" }}
           edge="end"
-          aria-label="comments"
+          id="delete-icon"
           color="error"
           onClick={handleDelete}
         >

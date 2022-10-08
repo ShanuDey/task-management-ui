@@ -49,6 +49,7 @@ const AddTask = () => {
   return (
     <Paper
       component="form"
+      id="add-task-form"
       onSubmit={handleSubmit}
       sx={{
         padding: 2,
@@ -66,7 +67,7 @@ const AddTask = () => {
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           placeholder="Add a new task"
-          inputProps={{ "aria-label": "add new task" }}
+          id="input-textfield"
           onFocus={() => setIsEditing(true)}
           required
           name="task"
@@ -77,7 +78,7 @@ const AddTask = () => {
             type="button"
             color="default"
             sx={{ p: "10px" }}
-            aria-label="search"
+            id="close-button"
             onClick={() => setIsEditing(false)}
           >
             <CloseIcon />
@@ -86,7 +87,7 @@ const AddTask = () => {
             type="submit"
             color="success"
             sx={{ p: "10px" }}
-            aria-label="directions"
+            id="submit-button"
           >
             <DoneIcon />
           </IconButton>
@@ -95,7 +96,7 @@ const AddTask = () => {
           <IconButton
             color="primary"
             sx={{ p: "10px" }}
-            aria-label="directions"
+            id="add-button"
             onClick={() => setIsEditing(true)}
           >
             <AddIcon />
@@ -113,7 +114,7 @@ const AddTask = () => {
         >
           <FormControlLabel
             control={
-              <Checkbox value="completed" color="primary" name="status" />
+              <Checkbox value="completed" id="status" color="primary" name="status" />
             }
             label="Completed"
           />
