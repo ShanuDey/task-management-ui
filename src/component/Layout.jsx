@@ -4,7 +4,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Footer from "./Footer";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme();
 

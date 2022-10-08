@@ -5,6 +5,7 @@ import { HashRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { RecoilRoot } from "recoil";
 import App from "./App";
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,7 +21,7 @@ root.render(
       position="bottom-right"
       autoClose={5000}
       hideProgressBar={false}
-      newestOnTop={false}
+      newestOnTop
       closeOnClick
       rtl={false}
       pauseOnFocusLoss
