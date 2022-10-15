@@ -55,11 +55,11 @@ export default function ButtonAppBar() {
             Task Manager
           </Typography>
           {cookies.token ? (
-            <Button color="inherit" onClick={handleLogoutButtonClick}>
+            <Button color="inherit" onClick={handleLogoutButtonClick} id="LogoutButton">
               Logout
             </Button>
           ) : (
-            <Button color="inherit" onClick={handleLoginButtonClick}>
+            <Button color="inherit" onClick={handleLoginButtonClick} id="LoginButton">
               Login
             </Button>
           )}
