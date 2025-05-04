@@ -19,9 +19,18 @@ const ViewTask = ({ taskObject, setIsEditing }) => {
   const [cookies] = useCookies("token");
   const [, setTasks] = useRecoilState(tasksState);
   const [checked, setChecked] = useState(false);
-  console.log("taskObject", taskObject);
-  const labelId = `tasks-listitem-label-${uuidv4()}`;
   const date = new Date(taskObject.date).toDateString();
+  const [labelId, setLabelId] = useState("");
+
+  const generateLabelId = (taskObject) => {
+    const sanitizedTask = taskObject?.task || uuidv4();
+    return `tasks-listitem-label-${sanitizedTask.replace(/\s/g, "")}`;
+  }
+
+  useEffect(() => {
+    const labelId = generateLabelId(taskObject);
+    setLabelId(labelId);  
+  }, [taskObject]);
 
   useEffect(() => {
     setChecked(taskObject.status === "Completed");
