@@ -13,12 +13,14 @@ import { useCookies } from "react-cookie";
 import { useRecoilState } from "recoil";
 import { tasksState } from "../recoil/atom/taskAtom";
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from 'uuid';
 
 const ViewTask = ({ taskObject, setIsEditing }) => {
   const [cookies] = useCookies("token");
   const [, setTasks] = useRecoilState(tasksState);
   const [checked, setChecked] = useState(false);
-  const labelId = `tasks-listitem-label-${taskObject.task.replace(/\s/g, "")}`;
+  console.log("taskObject", taskObject);
+  const labelId = `tasks-listitem-label-${uuidv4()}`;
   const date = new Date(taskObject.date).toDateString();
 
   useEffect(() => {
